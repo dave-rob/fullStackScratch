@@ -1,4 +1,22 @@
-
+function register(){
+    $("container").empty();
+    $regform = $("<form>").css("display", "block").attr("action", `/api/register`).attr("method", "post");
+     $nameLabel = $("<label>").text("Name:")
+     $nameInput = $("<input>").attr("name", "name");
+     $emailLabel = $("<label>").text("Email:")
+     $emailInput = $("<input>").attr("name", "email");
+     $passwordLabel = $("<label>").text("Password:")
+     $passwordInput = $("<input>").attr("name", "password").attr("type", "password");
+     $button = $("<button>").text("Register!");
+    $regform.append($nameLabel);
+    $regform.append($nameInput);
+    $regform.append($emailLabel);
+    $regform.append($emailInput);
+    $regform.append($passwordLabel);
+    $regform.append($passwordInput);
+    $regform.append($button);
+     $("container").append($regform);
+}
 
 function showNames(id, name){
        $div = $("<div>").addClass(`user`).attr("id", `user${id}`); 
@@ -12,7 +30,7 @@ function showNames(id, name){
 }
 
 function showPosts(obj){
-    $("h1").text(obj.name).css("margin-right", "46%")
+    $("h1").text(obj.name).css("margin-right", "3%")
     
     $div = $("<div>").addClass(`post`).attr("id", `post${obj.id}`);
     $txt = $("<p>").text(`${obj.blog}`).addClass("postText");

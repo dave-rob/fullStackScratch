@@ -13,7 +13,7 @@ const db = new pg.Pool({
 db.connect();
 app.use(express.static('public'))
 
-//lets you get req.body from forms
+//lets you get req.body from forms and parse URL-encoded data
 app.use(express.urlencoded({ extended:true}));
 app.use(express.json());
 
@@ -48,6 +48,18 @@ app.post("/api/:id/posts", async (req, res)=>{
     try {
         console.log("received");
         await db.query("INSERT INTO posts (user_id, blog, feeling) values ($1, $2, $3);", [id, blog, feeling])
+        res.redirect("/");
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
+})
+
+app.post("/api/register", async (req, res)=>{
+    const {name, email, password} = req.body;
+    try {
+        console.log("received");
+        await db.query("INSERT INTO users (name, email, password) values ($1, $2, $3);", [name, email, password])
         res.redirect("/");
       } catch (error) {
         console.error(error);
