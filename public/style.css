@@ -1,0 +1,49 @@
+body{
+    background-color: cadetblue;
+}
+
+button{
+    margin-left: 85%;
+}
+
+form{
+    background-color: rgb(211, 216, 221);
+    margin: 10px 35%;
+    padding:5px;
+    border-radius: 10px;
+}
+
+input, label {
+    display: block;
+    margin-left: 10px;
+}
+input {
+    width: 95%;
+    margin: 10px;
+}
+textarea{
+    width: 95%;
+    margin: 10px;
+}
+
+/*-----------------CLASSES------------------ */
+.user{
+    text-align: center;
+    background-color: aliceblue;
+    margin: 5px 35%;
+    border-radius: 10px;
+}
+
+.post{
+    text-align: left;
+    background-color: rgb(211, 216, 221);
+    margin: 10px 35%;
+    border-radius: 10px;
+}
+
+.postText{
+    background-color: azure;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    margin-bottom: 2px;
+}

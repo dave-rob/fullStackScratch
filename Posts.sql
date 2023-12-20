@@ -1,5 +1,5 @@
 create table Posts (
-	id INT PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	user_id INT REFERENCES Users(id),
 	blog VARCHAR(33),
 	feeling VARCHAR(7)
