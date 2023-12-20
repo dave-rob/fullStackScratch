@@ -1,16 +1,15 @@
 import express from 'express';
 const app = express();
 import pg from 'pg';
+import 'dotenv/config'
+
+const connectionString= process.env.DATABASE_URL;
 
 const db = new pg.Pool({
-    user: "postgres",
-    host: "localhost",
-    database: "blogPosts",
-    password: "123456",
-    port: 5432
+    connectionString
 })
 
-db.connect();
+//db.connect();
 app.use(express.static('public'))
 
 //lets you get req.body from forms and parse URL-encoded data
@@ -19,7 +18,7 @@ app.use(express.json());
 
 app.get("/api/users", async (req, res)=>{
     try {
-        console.log("received");
+        //console.log("received");
         const {rows} = await db.query("SELECT id, name FROM users;")
         //console.log(results);
         res.send(rows);
@@ -32,7 +31,7 @@ app.get("/api/users", async (req, res)=>{
 app.get("/api/:id/posts", async (req, res)=>{
     const {id} = req.params;
     try {
-        console.log("received");
+        //console.log("received");
         const {rows} = await db.query("select * from users inner join posts ON users.id = posts.user_id AND users.id = $1;", [id])
         //console.log(rows);
         res.send(rows);
@@ -46,7 +45,7 @@ app.post("/api/:id/posts", async (req, res)=>{
     const {id} = req.params;
     const {blog, feeling} = req.body;
     try {
-        console.log("received");
+        //console.log("received");
         await db.query("INSERT INTO posts (user_id, blog, feeling) values ($1, $2, $3);", [id, blog, feeling])
         res.redirect("/");
       } catch (error) {
@@ -58,7 +57,7 @@ app.post("/api/:id/posts", async (req, res)=>{
 app.post("/api/register", async (req, res)=>{
     const {name, email, password} = req.body;
     try {
-        console.log("received");
+        //console.log("received");
         await db.query("INSERT INTO users (name, email, password) values ($1, $2, $3);", [name, email, password])
         res.redirect("/");
       } catch (error) {
