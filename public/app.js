@@ -1,6 +1,13 @@
-import jQuery from "jquery";
+let names = [];
 
-// $.get("http://localhost:3000/api/users")
-//     .then(res => console.log(res));
-    $.get(`http://localhost:3000/api/users`, (data) => {
-        console.log(data);})
+async function getName(){
+  await $.get('/api/users')
+    .then(data => data.forEach(element => {
+        names.push(element.name);
+    }))
+    .fail(error => console.error('Error:', error))  
+    console.log(names);
+}
+
+getName();
+
