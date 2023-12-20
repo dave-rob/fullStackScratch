@@ -27,6 +27,19 @@ app.get("/api/users", async (req, res)=>{
       }
 })
 
+app.get("/api/:id/posts", async (req, res)=>{
+    const {id} = req.params;
+    try {
+        console.log("received");
+        const {rows} = await db.query("select * from users inner join posts ON users.id = posts.user_id AND users.id = $1;", [id])
+        //console.log(rows);
+        res.send(rows);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
+})
+
 app.listen(3000, ()=>{
     console.log('Listening on port 3000!')
 })
