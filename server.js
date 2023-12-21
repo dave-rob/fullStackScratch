@@ -1,5 +1,6 @@
 import express from 'express';
 const app = express();
+import basicAuth from 'express-basic-auth';
 import pg from 'pg';
 import 'dotenv/config'
 
@@ -16,6 +17,9 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended:true}));
 app.use(express.json());
 
+
+
+
 app.get("/api/users", async (req, res)=>{
     try {
         //console.log("received");
@@ -27,6 +31,25 @@ app.get("/api/users", async (req, res)=>{
         res.status(500).send('Internal Server Error');
       }
 })
+app.use(basicAuth({
+    authorizer:myAuthorizer,
+    authorizeAsync:true,
+    challenge: true,//gives popup if try to go to browser
+    unauthorizedResponse: req => (`unauthorized!`)
+}))
+
+async function myAuthorizer(username, password,cb) {
+    const {rows} = await db.query("SELECT password FROM users where name = $1;", [username])
+    console.log(rows[0].password)
+    // const userMatches = basicAuth.safeCompare(username, 'customuser')
+    // const passwordMatches = basicAuth.safeCompare(password, 'custompassword')
+
+    // return userMatches & passwordMatches
+    if (basicAuth.safeCompare(password, rows[0].password))
+    return cb(null, true)
+else
+    return cb(null, false)
+}
 
 app.get("/api/:id/posts", async (req, res)=>{
     const {id} = req.params;
