@@ -31,6 +31,19 @@ app.get("/api/users", async (req, res)=>{
         res.status(500).send('Internal Server Error');
       }
 })
+
+app.post("/api/register", async (req, res)=>{
+    const {name, email, password} = req.body;
+    try {
+        //console.log("received");
+        await db.query("INSERT INTO users (name, email, password) values ($1, $2, $3);", [name, email, password])
+        res.redirect("/");
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+      }
+})
+
 app.use(basicAuth({
     authorizer:myAuthorizer,
     authorizeAsync:true,
@@ -77,17 +90,7 @@ app.post("/api/:id/posts", async (req, res)=>{
       }
 })
 
-app.post("/api/register", async (req, res)=>{
-    const {name, email, password} = req.body;
-    try {
-        //console.log("received");
-        await db.query("INSERT INTO users (name, email, password) values ($1, $2, $3);", [name, email, password])
-        res.redirect("/");
-      } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-      }
-})
+
 
 app.listen(3000, ()=>{
     console.log('Listening on port 3000!')
